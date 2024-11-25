@@ -28,11 +28,14 @@ export class HomeComponent implements OnInit {
 
   loadMovies() {
     if (this.isLoading || !this.hasMorePages) return;
-    
+  
     this.isLoading = true;
     this.movieService.getPopularMovies(this.currentPage).subscribe(
       (data: any) => {
-        this.popularMovies = [...this.popularMovies, ...data.results];
+        const newMovies = data.results.filter(
+          (movie: Movie) => !this.popularMovies.some((existingMovie) => existingMovie.id === movie.id)
+        );
+        this.popularMovies = [...this.popularMovies, ...newMovies];
         this.hasMorePages = this.currentPage < data.total_pages;
         this.currentPage++;
         this.isLoading = false;

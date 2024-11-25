@@ -35,11 +35,14 @@ export class SearchComponent {
 
   loadResults() {
     if (this.isLoading || !this.hasMorePages) return;
-    
+  
     this.isLoading = true;
     this.movieService.searchMovies(this.searchQuery, this.currentPage).subscribe(
       (data: any) => {
-        this.searchResults = [...this.searchResults, ...data.results];
+        const newResults = data.results.filter(
+          (movie: Movie) => !this.searchResults.some((existingMovie) => existingMovie.id === movie.id)
+        );
+        this.searchResults = [...this.searchResults, ...newResults];
         this.hasMorePages = this.currentPage < data.total_pages;
         this.currentPage++;
         this.isLoading = false;
