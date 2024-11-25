@@ -1,0 +1,26 @@
+<div class="container mt-4" *ngIf="movie">
+    <div class="row">
+      <div class="col-md-4">
+        <img [appLazyLoadImage]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+             class="img-fluid rounded" 
+             [alt]="movie.title">
+      </div>
+      <div class="col-md-8">
+        <h1>{{movie.title}}</h1>
+        <p class="lead">{{movie.tagline}}</p>
+        <p>{{movie.overview}}</p>
+        <div class="mb-3">
+          <strong>Data de Lançamento:</strong> {{movie.release_date | date}}
+        </div>
+        <div class="mb-3">
+          <strong>Duração:</strong> {{movie.runtime | runtime}}
+        </div>
+        <div class="mb-3">
+          <strong>Gêneros:</strong> {{movie.genre_ids | genreList:genres}}
+        </div>
+        <div class="mb-3">
+          <strong>Avaliação:</strong> {{movie.vote_average}}/10
+        </div>
+      </div>
+    </div>
+  </div>
